@@ -1,63 +1,63 @@
-# 🧠 Solidity Mind Map Generator
+# 🧠 Solidity Mind Map Generator (AI-Powered)
 
 Convert any Solidity smart contract repository into an **interactive HTML audit mind map**.
 
-Every function. Every state variable. Every event, error, struct, enum. **Nothing filtered.**
+## Three Modes
 
-## Features
-
-- **Full extraction** — no filtering, every function included
-- **Interactive HTML** — filter by visibility, search, expand/collapse
-- **Auto-risk detection** — highlights liquidation, oracle, flash loan, withdraw, borrow, admin functions
-- **Cross-contract calls** — detects and maps inter-contract dependencies
-- **Params table** — expandable parameter details for every function
-- **Contract glossary** — searchable index of all contracts
-- **Works with any repo** — GitHub URL or local path
+| Mode | Description | Speed |
+|------|-------------|-------|
+| `raw` | No AI. Extract everything, format as HTML. | ⚡ Instant |
+| `full` | AI translates EVERY function to plain-English logic | 🐢 Slower |
+| `filtered` | AI filters high-risk functions + deep exploit analysis | 🎯 Smartest |
 
 ## Usage
 
 ```bash
-# From GitHub URL (auto clone)
-python3 solidity_mindmap.py https://github.com/morpho-org/morpho-blue
+# Raw mode (no AI, instant)
+python3 solidity_mindmap.py https://github.com/morpho-org/morpho-blue --mode raw
 
-# From local path
-python3 solidity_mindmap.py /path/to/repo
+# Full mode (AI explains every function)
+python3 solidity_mindmap.py ./morpho-blue --mode full --api-key sk-xxx
 
-# Custom output name
-python3 solidity_mindmap.py https://github.com/morpho-org/morpho-blue morpho_audit.html
+# Filtered mode (AI picks high-risk + exploit analysis)
+python3 solidity_mindmap.py ./morpho-blue --mode filtered --api-key sk-xxx
 ```
+
+## API Configuration
+
+```bash
+# Via command line
+python3 solidity_mindmap.py ./repo --mode full --api-url https://openrouter.ai/api/v1 --api-key sk-xxx --model anthropic/claude-sonnet-4
+
+# Via environment variables
+export MINDMAP_API_URL=https://openrouter.ai/api/v1
+export MINDMAP_API_KEY=sk-xxx
+export MINDMAP_MODEL=anthropic/claude-sonnet-4
+python3 solidity_mindmap.py ./repo --mode full
+```
+
+Works with any OpenAI-compatible API: OpenRouter, OpenAI, Anthropic (via proxy), local LLMs, etc.
 
 ## Output
 
 - `*_AuditMindMap.html` — Interactive mind map (open in browser)
-- `*_AuditMindMap.json` — Raw extracted data (for further processing)
+- `*_AuditMindMap.json` — Raw extracted data + AI analysis
 
-## Example Output (Morpho Blue)
+## Features
 
-| Metric | Count |
-|--------|-------|
-| Solidity Files | 57 |
-| Contracts | 39 |
-| Interfaces | 14 |
-| Libraries | 14 |
-| Functions | 359 |
-| State Variables | 534 |
-| Events | 19 |
+- **Full extraction** — every function, state var, event, error, struct, enum
+- **Interactive HTML** — filter by visibility, search, expand/collapse
+- **Auto-risk detection** — highlights liquidation, oracle, flash loan functions
+- **Cross-contract calls** — detects inter-contract dependencies
+- **AI logic translation** — plain-English explanation of every function
+- **AI exploit analysis** — attack vectors, difficulty, impact, fix
+- **Works with any repo** — GitHub URL or local path
 
 ## Dependencies
 
 - Python 3.10+
 - Git (for cloning repos)
-
-No external packages required — uses only Python stdlib.
-
-## How It Works
-
-1. Clones repo (or reads local path)
-2. Parses all `.sol` files using regex
-3. Extracts: contracts, interfaces, libraries, functions, state variables, modifiers, events, errors, structs, enums, constructor, receive/fallback
-4. Detects cross-contract calls
-5. Generates interactive HTML with search, filter, and glossary
+- API key (only for `full` and `filtered` modes)
 
 ## License
 
